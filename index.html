@@ -1,160 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mind2Voice</title>
-    <style>
-        :root {
-            --bg: #e9edf3;
-            --device-frame: #111827;
-            --device-edge: #2f3746;
-            --screen: #f5f7fa;
-            --screen-accent: #dfe8f3;
-            --text: #1f2937;
-            --primary: #3b82f6;
-            --primary-dark: #1d4ed8;
-            --shadow: rgba(15, 23, 42, 0.25);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mind2Voice</title>
 
-        * { box-sizing: border-box; }
+<style>
+:root{
+    --bg:#f5f5f7;
+    --text:#1d1d1f;
+    --muted:#6e6e73;
+    --primary:#0071e3;
+    --primary-dark:#0077ed;
+    --shadow:rgba(0,0,0,.18);
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-            background: var(--bg);
-            font-family: Arial, Helvetica, sans-serif;
-            color: var(--text);
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        .ipad-wrap {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
-        }
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:var(--bg);
+    font-family:-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    color:var(--text);
+}
 
-        .ipad {
-            position: relative;
-            width: min(82vw, 860px);
-            aspect-ratio: 1.43;
-            background: linear-gradient(145deg, #1f2937 0%, #0f172a 40%, #111827 100%);
-            border-radius: 34px;
-            padding: 18px 18px 22px;
-            box-shadow:
-                0 30px 60px var(--shadow),
-                inset 0 0 0 2px rgba(255,255,255,0.08),
-                inset 0 0 0 8px rgba(255,255,255,0.02);
-        }
+/* DEVICE TOGGLE */
+.device-selector{
+    position:fixed;
+    top:18px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:4px;
+    padding:4px;
+    background:rgba(255,255,255,.72);
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:999px;
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+    backdrop-filter:blur(18px);
+    z-index:9999;
+}
 
-        .screen {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #f8fafc 0%, var(--screen-accent) 100%);
-            border-radius: 26px;
-            overflow: hidden;
-            position: relative;
-            border: 2px solid rgba(15, 23, 42, 0.08);
-        }
+.device-btn{
+    border:none;
+    padding:9px 17px;
+    border-radius:999px;
+    cursor:pointer;
+    font-weight:700;
+    color:#424245;
+    background:transparent;
+    transition:.2s ease;
+}
 
-        .camera {
-            position: absolute;
-            top: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 14px;
-            height: 14px;
-            background: #0f172a;
-            border: 2px solid rgba(255,255,255,0.25);
-            border-radius: 50%;
-            z-index: 3;
-        }
+.device-btn.active{
+    color:white;
+    background:#1d1d1f;
+    box-shadow:0 2px 8px rgba(0,0,0,.16);
+}
 
-        .content {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 60px 30px 40px;
-            background: radial-gradient(circle at top, rgba(59,130,246,0.10), transparent 45%);
-        }
+/* IPAD FRAME */
+.ipad{
+    position:relative;
+    width:min(82vw,860px);
+    aspect-ratio:1.43;
+    background:linear-gradient(145deg,#3a3a3c,#101012);
+    border-radius:40px;
+    padding:16px 16px 20px;
+    box-shadow:
+        0 30px 60px var(--shadow),
+        inset 0 0 0 2px rgba(255,255,255,.08),
+        inset 0 0 0 8px rgba(255,255,255,.02);
 
-        h1 {
-            margin: 0 0 12px;
-            font-size: clamp(2.2rem, 4vw, 4rem);
-            letter-spacing: 0.04em;
-        }
+    transition:.3s ease;
+}
 
-        h2 {
-            margin: 0 0 30px;
-            font-size: clamp(1rem, 1.7vw, 1.6rem);
-            color: #374151;
-            font-weight: 500;
-            max-width: 620px;
-            line-height: 1.4;
-        }
+/* WEB MODE = FULL SCREEN */
+.ipad.web-view{
+    width:100vw;
+    height:100vh;
+    aspect-ratio:auto;
+    border-radius:0;
+    padding:0;
+    box-shadow:none;
+}
 
-        .button-row {
-            display: flex;
-            gap: 22px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+.ipad.web-view .camera,
+.ipad.web-view .home-indicator{
+    display:none;
+}
 
-        .button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 180px;
-            padding: 18px 24px;
-            border-radius: 16px;
-            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 700;
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
+.ipad.web-view .screen{
+    border-radius:0;
+}
 
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 24px rgba(37, 99, 235, 0.35);
-        }
+/* SCREEN */
+.screen{
+    width:100%;
+    height:100%;
+    background:linear-gradient(145deg,#fbfbfd 0%,#e8e8ed 100%);
+    border-radius:30px;
+    overflow:hidden;
+}
 
-        .home-indicator {
-            position: absolute;
-            left: 50%;
-            bottom: 10px;
-            transform: translateX(-50%);
-            width: 130px;
-            height: 6px;
-            background: rgba(255,255,255,0.4);
-            border-radius: 999px;
-        }
-    </style>
+.camera{
+    position:absolute;
+    top:12px;
+    left:50%;
+    transform:translateX(-50%);
+    width:14px;
+    height:14px;
+    background:#0f172a;
+    border:2px solid rgba(255,255,255,.25);
+    border-radius:50%;
+    z-index:5;
+}
+
+.content{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:72px 30px 60px;
+    background:
+        radial-gradient(
+            circle at top,
+            rgba(0,113,227,.12),
+            transparent 45%
+        );
+}
+
+h1{
+    margin-bottom:18px;
+    letter-spacing:-.055em;
+    font-weight:700;
+    font-size:clamp(2.8rem,6vw,5.8rem);
+}
+
+h2{
+    max-width:650px;
+    margin-bottom:38px;
+    font-size:clamp(1rem,1.7vw,1.6rem);
+    color:var(--muted);
+    font-weight:600;
+    letter-spacing:-.02em;
+}
+
+/* BUTTONS */
+.button-row{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:190px;
+    padding:15px 25px;
+    border-radius:999px;
+    text-decoration:none;
+    font-weight:700;
+    color:white;
+    background:var(--primary);
+    box-shadow:0 6px 16px rgba(0,113,227,.22);
+    transition:transform .2s, background .2s, box-shadow .2s;
+}
+
+.button:hover{
+    transform:translateY(-2px);
+    background:var(--primary-dark);
+    box-shadow:0 9px 22px rgba(0,113,227,.3);
+}
+
+.button:focus-visible,
+.device-btn:focus-visible{
+    outline:3px solid rgba(0,113,227,.45);
+    outline-offset:3px;
+}
+
+.home-indicator{
+    position:absolute;
+    left:50%;
+    bottom:10px;
+    transform:translateX(-50%);
+    width:130px;
+    height:6px;
+    background:rgba(255,255,255,.4);
+    border-radius:999px;
+}
+</style>
 </head>
-<body>
-    <div class="ipad-wrap">
-        <div class="ipad">
-            <div class="camera"></div>
-            <div class="screen">
-                <div class="content">
-                    <h1>Mind2Voice</h1>
-                    <h2>AI Assisted Communication for Nonverbal Autism</h2>
 
-                    <div class="button-row">
-                        <a href="letterboard.html" class="button">Letter Board</a>
-                        <a href="phraseboard.html" class="button">Phrase Board</a>
-                    </div>
-                </div>
+<body>
+
+<div class="device-selector">
+    <button class="device-btn active" data-device="ipad">Phone/iPad</button>
+    <button class="device-btn" data-device="web">Web</button>
+</div>
+
+<div class="ipad">
+
+    <div class="camera"></div>
+
+    <div class="screen">
+        <div class="content">
+            <h1>Mind2Voice</h1>
+            <h2>AI Assisted Communication for Nonverbal Autism</h2>
+
+            <div class="button-row">
+                <a href="letterboard.html" class="button">Letter Board</a>
+                <a href="phraseboard.html" class="button">Phrase Board</a>
             </div>
-            <div class="home-indicator"></div>
         </div>
     </div>
+
+    <div class="home-indicator"></div>
+
+</div>
+
+<script>
+const device = document.querySelector('.ipad');
+const buttons = document.querySelectorAll('.device-btn');
+
+buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if(btn.dataset.device === 'web'){
+            device.classList.add('web-view');
+        } else {
+            device.classList.remove('web-view');
+        }
+
+    });
+});
+</script>
+
 </body>
 </html>
