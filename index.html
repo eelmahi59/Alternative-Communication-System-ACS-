@@ -239,14 +239,18 @@ buttons.forEach(btn => {
         buttons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
+        device.classList.remove('web-view', 'mobile-view');
+
         if(btn.dataset.device === 'web'){
             device.classList.add('web-view');
         } else {
-            device.classList.remove('web-view');
+            device.classList.add('mobile-view');
         }
-
     });
 });
+
+// Default = Mobile/iPad full screen
+device.classList.add('mobile-view');
 </script>
 
 </body>
