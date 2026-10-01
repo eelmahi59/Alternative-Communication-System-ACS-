@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Mind2Voice">
-<title>Mind2Voice</title>
+<title>TEST! Mind2Voice</title>
 
 <style>
 :root{
@@ -107,13 +107,43 @@ body.dark .device-btn.active{
 
 /* WEB MODE */
 .ipad.web-view{
-width:100vw;
-height:100dvh;
-min-height:100dvh;
-aspect-ratio:auto;
-border-radius:0;
-padding:0;
-box-shadow:none;
+    width:100vw;
+    height:100dvh;
+    min-height:100dvh;
+    aspect-ratio:auto;
+    border-radius:0;
+    padding:0;
+    box-shadow:none;
+}
+
+/* Real tablets */
+@media (pointer: coarse) and (min-width: 768px){
+
+    .device-selector{
+        display:none;
+    }
+
+    .ipad{
+        width:100vw !important;
+        height:100dvh !important;
+        min-height:100dvh !important;
+        padding:0 !important;
+        border-radius:0 !important;
+        aspect-ratio:auto !important;
+        box-shadow:none !important;
+    }
+
+    .camera,
+    .home-indicator{
+        display:none !important;
+    }
+
+    .screen{
+        border-radius:0 !important;
+        width:100%;
+        height:100%;
+    }
+
 }
 
 .ipad.web-view .camera,
@@ -347,6 +377,22 @@ if(savedTheme){
 }
 
 updateThemeButton();
+/* Tablet Detection */
+const isTablet =
+    navigator.maxTouchPoints > 1 &&
+    Math.max(window.innerWidth, window.innerHeight) >= 820;
+
+if (isTablet) {
+
+    const selector =
+        document.querySelector('.device-selector');
+
+    if (selector) {
+        selector.style.display = 'none';
+    }
+
+    device.classList.add('web-view');
+}
 </script>
 
 </body>
