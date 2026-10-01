@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Mind2Voice">
-<title>TEST! Mind2Voice</title>
+<title>Mind2Voice</title>
 
 <style>
 :root{
@@ -272,6 +272,10 @@ h2{
     <button class="device-btn" id="themeToggle">
         🌙 Dark
     </button>
+
+    <button class="device-btn" id="fullscreenBtn">
+        ⛶ Fullscreen
+    </button>
 </div>
 
 <div class="ipad">
@@ -281,7 +285,7 @@ h2{
     <div class="screen">
         <div class="content">
 
-            <h1>Mind2Voice</h1>
+            <h1>TESTMind2Voice</h1>
 
             <h2>
                 AI Assisted Communication for Nonverbal Autism
@@ -393,6 +397,34 @@ if (isTablet) {
 
     device.classList.add('web-view');
 }
+const fullscreenBtn =
+    document.getElementById('fullscreenBtn');
+
+fullscreenBtn.addEventListener('click', async () => {
+
+    try {
+
+        if (!document.fullscreenElement) {
+
+            await document.documentElement.requestFullscreen();
+
+            fullscreenBtn.textContent =
+                '✕ Exit';
+
+        } else {
+
+            await document.exitFullscreen();
+
+            fullscreenBtn.textContent =
+                '⛶ Fullscreen';
+
+        }
+
+    } catch (err) {
+        console.log(err);
+    }
+
+});
 </script>
 
 </body>
