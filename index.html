@@ -13,6 +13,22 @@
     --primary:#0071e3;
     --primary-dark:#0077ed;
     --shadow:rgba(0,0,0,.18);
+
+    --screen-bg:linear-gradient(145deg,#fbfbfd 0%,#e8e8ed 100%);
+    --selector-bg:rgba(255,255,255,.72);
+}
+
+/* DARK MODE */
+body.dark{
+    --bg:#000;
+    --text:#f5f5f7;
+    --muted:#a1a1a6;
+    --primary:#0a84ff;
+    --primary-dark:#409cff;
+    --shadow:rgba(0,0,0,.45);
+
+    --screen-bg:linear-gradient(145deg,#1c1c1e 0%,#0f0f10 100%);
+    --selector-bg:rgba(28,28,30,.85);
 }
 
 *{
@@ -27,11 +43,12 @@ body{
     justify-content:center;
     align-items:center;
     background:var(--bg);
-    font-family:-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
     color:var(--text);
+    transition:background .3s,color .3s;
 }
 
-/* DEVICE TOGGLE */
+/* TOP CONTROLS */
 .device-selector{
     position:fixed;
     top:18px;
@@ -40,7 +57,7 @@ body{
     display:flex;
     gap:4px;
     padding:4px;
-    background:rgba(255,255,255,.72);
+    background:var(--selector-bg);
     border:1px solid rgba(0,0,0,.08);
     border-radius:999px;
     box-shadow:0 8px 24px rgba(0,0,0,.08);
@@ -54,7 +71,7 @@ body{
     border-radius:999px;
     cursor:pointer;
     font-weight:700;
-    color:#424245;
+    color:var(--text);
     background:transparent;
     transition:.2s ease;
 }
@@ -63,6 +80,11 @@ body{
     color:white;
     background:#1d1d1f;
     box-shadow:0 2px 8px rgba(0,0,0,.16);
+}
+
+body.dark .device-btn.active{
+    background:#ffffff;
+    color:#000000;
 }
 
 /* IPAD FRAME */
@@ -77,11 +99,10 @@ body{
         0 30px 60px var(--shadow),
         inset 0 0 0 2px rgba(255,255,255,.08),
         inset 0 0 0 8px rgba(255,255,255,.02);
-
     transition:.3s ease;
 }
 
-/* WEB MODE = FULL SCREEN */
+/* WEB MODE */
 .ipad.web-view{
     width:100vw;
     height:100vh;
@@ -104,9 +125,10 @@ body{
 .screen{
     width:100%;
     height:100%;
-    background:linear-gradient(145deg,#fbfbfd 0%,#e8e8ed 100%);
+    background:var(--screen-bg);
     border-radius:30px;
     overflow:hidden;
+    transition:.3s ease;
 }
 
 .camera{
@@ -174,7 +196,7 @@ h2{
     color:white;
     background:var(--primary);
     box-shadow:0 6px 16px rgba(0,113,227,.22);
-    transition:transform .2s, background .2s, box-shadow .2s;
+    transition:transform .2s,background .2s,box-shadow .2s;
 }
 
 .button:hover{
@@ -205,8 +227,17 @@ h2{
 <body>
 
 <div class="device-selector">
-    <button class="device-btn active" data-device="ipad">Phone/iPad</button>
-    <button class="device-btn" data-device="web">Web</button>
+    <button class="device-btn active" data-device="ipad">
+        Phone/iPad
+    </button>
+
+    <button class="device-btn" data-device="web">
+        Web
+    </button>
+
+    <button class="device-btn" id="themeToggle">
+        🌙 Dark
+    </button>
 </div>
 
 <div class="ipad">
@@ -215,13 +246,23 @@ h2{
 
     <div class="screen">
         <div class="content">
+
             <h1>Mind2Voice</h1>
-            <h2>AI Assisted Communication for Nonverbal Autism</h2>
+
+            <h2>
+                AI Assisted Communication for Nonverbal Autism
+            </h2>
 
             <div class="button-row">
-                <a href="letterboard.html" class="button">Letter Board</a>
-                <a href="phraseboard.html" class="button">Phrase Board</a>
+                <a href="letterboard.html" class="button">
+                    Letter Board
+                </a>
+
+                <a href="phraseboard.html" class="button">
+                    Phrase Board
+                </a>
             </div>
+
         </div>
     </div>
 
@@ -231,26 +272,77 @@ h2{
 
 <script>
 const device = document.querySelector('.ipad');
-const buttons = document.querySelectorAll('.device-btn');
+const buttons = document.querySelectorAll('[data-device]');
 
+/* Device Switch */
 buttons.forEach(btn => {
     btn.addEventListener('click', () => {
 
-        buttons.forEach(b => b.classList.remove('active'));
+        buttons.forEach(b =>
+            b.classList.remove('active')
+        );
+
         btn.classList.add('active');
 
-        device.classList.remove('web-view', 'mobile-view');
+        device.classList.remove('web-view');
 
         if(btn.dataset.device === 'web'){
             device.classList.add('web-view');
-        } else {
-            device.classList.add('mobile-view');
         }
     });
 });
 
-// Default = Mobile/iPad full screen
-device.classList.add('mobile-view');
+/* Theme Toggle */
+const themeToggle =
+    document.getElementById('themeToggle');
+
+function updateThemeButton() {
+
+    if(document.body.classList.contains('dark')){
+        themeToggle.textContent = '☀️ Light';
+    } else {
+        themeToggle.textContent = '🌙 Dark';
+    }
+
+}
+
+themeToggle.addEventListener('click', () => {
+
+    document.body.classList.toggle('dark');
+
+    localStorage.setItem(
+        'theme',
+        document.body.classList.contains('dark')
+            ? 'dark'
+            : 'light'
+    );
+
+    updateThemeButton();
+});
+
+/* Load Theme */
+const savedTheme =
+    localStorage.getItem('theme');
+
+if(savedTheme){
+
+    document.body.classList.toggle(
+        'dark',
+        savedTheme === 'dark'
+    );
+
+}else{
+
+    document.body.classList.toggle(
+        'dark',
+        window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        ).matches
+    );
+
+}
+
+updateThemeButton();
 </script>
 
 </body>
