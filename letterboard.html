@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mind2Voice Letterboard</title>
+
+<style>
+
+:root{
+    --bg1:#0f172a;
+    --bg2:#1e293b;
+    --bg3:#2563eb;
+
+    --card:rgba(255,255,255,.08);
+
+    --text:#ffffff;
+
+    --textarea:#ffffff;
+    --textareaText:#111827;
+}
+body.light{
+    --bg1:#f8fafc;
+    --bg2:#dbeafe;
+    --bg3:#93c5fd;
+
+    --card:rgba(255,255,255,.85);
+
+    --text:#111827;
+
+    --textarea:#ffffff;
+    --textareaText:#111827;
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+body{
+    min-height:100vh;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--bg1),
+        var(--bg2),
+        var(--bg3)
+    );
+
+    transition:.3s;
+    padding:30px;
+}
+.container{
+    max-width:1200px;
+    margin:auto;
+
+    background:var(--card);
+
+    backdrop-filter:blur(24px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:30px;
+
+    padding:30px;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+}
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:20px;
+}
+.logo{
+    color:var(--text);
+}
+.logo h1{
+    font-size:3rem;
+}
+.logo p{
+    opacity:.8;
+}
+
+.theme-btn{
+    width:60px;
+    height:60px;
+
+    border:none;
+    border-radius:50%;
+
+    cursor:pointer;
+
+    font-size:1.5rem;
+
+    background:white;
+
+    transition:.3s;
+}
+
+.theme-btn:hover{
+    transform:rotate(20deg);
+}
+
+#message{
+    width:100%;
+    height:140px;
+
+    border:none;
+    outline:none;
+
+    border-radius:24px;
+
+    padding:25px;
+
+    font-size:2rem;
+
+    resize:none;
+
+    background:var(--textarea);
+    color:var(--textareaText);
+
+    box-shadow:
+    0 8px 20px rgba(0,0,0,.1);
+}
+
+.section-title{
+    margin-top:25px;
+    margin-bottom:20px;
+
+    color:var(--text);
+
+    font-size:1.5rem;
+}
+
+.letterboard{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(6,1fr);
+
+    gap:15px;
+}
+
+.letter{
+
+    height:90px;
+
+    border:none;
+
+    border-radius:22px;
+
+    cursor:pointer;
+
+    font-size:2rem;
+
+    font-weight:800;
+
+    color:white;
+
+    background:
+    linear-gradient(
+        135deg,
+        #60a5fa,
+        #2563eb
+    );
+
+    box-shadow:
+    0 10px 20px rgba(37,99,235,.35);
+
+    transition:.2s;
+}
+
+.letter:hover{
+    transform:
+    translateY(-4px)
+    scale(1.03);
+}
+
+.letter:active{
+    transform:scale(.95);
+}
+
+.controls{
+
+    margin-top:20px;
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+}
+
+.control{
+
+    flex:1;
+
+    min-width:180px;
+
+    padding:18px;
+
+    border:none;
+
+    border-radius:20px;
+
+    font-size:1.1rem;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.control:hover{
+    transform:translateY(-3px);
+}
+
+.space{
+    background:#f59e0b;
+    color:white;
+}
+
+.backspace{
+    background:#8b5cf6;
+    color:white;
+}
+
+.clear{
+    background:#ef4444;
+    color:white;
+}
+
+.speak{
+    background:
+    linear-gradient(
+        135deg,
+        #10b981,
+        #059669
+    );
+
+    color:white;
+}
+
+.footer{
+
+    margin-top:25px;
+
+    text-align:center;
+
+    color:var(--text);
+
+    opacity:.7;
+}
+
+@media(max-width:768px){
+
+    .logo h1{
+        font-size:2rem;
+    }
+
+    .letterboard{
+        grid-template-columns:
+        repeat(4,1fr);
+    }
+
+    .letter{
+        height:80px;
+        font-size:1.6rem;
+    }
+
+    #message{
+        font-size:1.5rem;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div class="logo">
+            <h1>Mind2Voice</h1>
+            <p>AI-Assisted Communication Letterboard</p>
+        </div>
+
+        <button
+        class="theme-btn"
+        id="themeToggle">
+        🌙
+        </button>
+
+    </div>
+
+    <textarea
+        id="message"
+        placeholder="Start building your message..."
+    ></textarea>
+
+    <h2 class="section-title">
+        Letterboard
+    </h2>
+
+    <div
+    class="letterboard"
+    id="letterboard">
+    </div>
+
+    <div class="controls">
+
+        <button
+        class="control space"
+        onclick="addCharacter(' ')">
+        Space
+        </button>
+
+        <button
+        class="control backspace"
+        onclick="backspaceText()">
+        ⌫ Backspace
+        </button>
+
+        <button
+        class="control clear"
+        onclick="clearText()">
+        🗑 Clear
+        </button>
+
+        <button
+        class="control speak"
+        onclick="speakText()">
+        🔊 Speak
+        </button>
+
+    </div>
+
+    <div class="footer">
+        Mind2Voice • CS 199 Prototype
+    </div>
+
+</div>
+
+<script>
+
+const alphabet =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+const board =
+document.getElementById(
+"letterboard"
+);
+
+for(const letter of alphabet){
+
+    const btn =
+    document.createElement(
+    "button"
+    );
+
+    btn.className =
+    "letter";
+
+    btn.textContent =
+    letter;
+
+    btn.onclick =
+    () => addCharacter(
+    letter
+    );
+
+    board.appendChild(
+    btn
+    );
+}
+
+function addCharacter(char){
+
+    document
+    .getElementById(
+    "message"
+    )
+    .value += char;
+}
+
+function backspaceText(){
+
+    const box =
+    document.getElementById(
+    "message"
+    );
+
+    box.value =
+    box.value.slice(0,-1);
+}
+
+function clearText(){
+
+    document
+    .getElementById(
+    "message"
+    )
+    .value = "";
+}
+
+function speakText(){
+
+    const text =
+    document
+    .getElementById(
+    "message"
+    )
+    .value;
+
+    if(!text) return;
+
+    const speech =
+    new SpeechSynthesisUtterance(
+    text
+    );
+
+    speech.rate = 0.9;
+
+    speech.pitch = 1;
+
+    speech.volume = 1;
+
+    speechSynthesis.cancel();
+
+    speechSynthesis.speak(
+    speech
+    );
+}
+
+const toggle =
+document.getElementById(
+"themeToggle"
+);
+
+toggle.onclick = () => {
+
+    document.body
+    .classList
+    .toggle("light");
+
+    toggle.textContent =
+    document.body
+    .classList
+    .contains("light")
+    ? "☀️"
+    : "🌙";
+};
+
+</script>
+
+</body>
+</html>
