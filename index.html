@@ -2,44 +2,430 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Mind2Voice">
 <title>Mind2Voice</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
+:root{
+    --bg:#f5f5f7;
+    --text:#1d1d1f;
+    --muted:#6e6e73;
+    --primary:#0071e3;
+    --primary-dark:#0077ed;
+    --shadow:rgba(0,0,0,.18);
+
+    --screen-bg:linear-gradient(145deg,#fbfbfd 0%,#e8e8ed 100%);
+    --selector-bg:rgba(255,255,255,.72);
+}
+
+/* DARK MODE */
+body.dark{
+    --bg:#000;
+    --text:#f5f5f7;
+    --muted:#a1a1a6;
+    --primary:#0a84ff;
+    --primary-dark:#409cff;
+    --shadow:rgba(0,0,0,.45);
+
+    --screen-bg:linear-gradient(145deg,#1c1c1e 0%,#0f0f10 100%);
+    --selector-bg:rgba(28,28,30,.85);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:var(--bg);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
+    color:var(--text);
+    transition:background .3s,color .3s;
+}
+
+/* TOP CONTROLS */
+.device-selector{
+    position:fixed;
+    top:18px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:4px;
+    padding:4px;
+    background:var(--selector-bg);
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:999px;
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+    backdrop-filter:blur(18px);
+    z-index:9999;
+}
+
+.device-btn{
+    border:none;
+    padding:9px 17px;
+    border-radius:999px;
+    cursor:pointer;
+    font-weight:700;
+    color:var(--text);
+    background:transparent;
+    transition:.2s ease;
+}
+
+.device-btn.active{
+    color:white;
+    background:#1d1d1f;
+    box-shadow:0 2px 8px rgba(0,0,0,.16);
+}
+
+body.dark .device-btn.active{
+    background:#ffffff;
+    color:#000000;
+}
+
+/* IPAD FRAME */
+.ipad{
+    position:relative;
+    width:min(82vw,860px);
+    aspect-ratio:1.43;
+    background:linear-gradient(145deg,#3a3a3c,#101012);
+    border-radius:40px;
+    padding:16px 16px 20px;
+    box-shadow:
+        0 30px 60px var(--shadow),
+        inset 0 0 0 2px rgba(255,255,255,.08),
+        inset 0 0 0 8px rgba(255,255,255,.02);
+    transition:.3s ease;
+}
+
+/* WEB MODE */
+.ipad.web-view{
+    width:100vw;
+    height:100dvh;
+    min-height:100dvh;
+    aspect-ratio:auto;
+    border-radius:0;
+    padding:0;
+    box-shadow:none;
+}
+
+/* Real tablets */
+@media (pointer: coarse) and (min-width: 768px){
+
+    .device-selector{
+        display:none;
+    }
+
+    .ipad{
+        width:100vw !important;
+        height:100dvh !important;
+        min-height:100dvh !important;
+        padding:0 !important;
+        border-radius:0 !important;
+        aspect-ratio:auto !important;
+        box-shadow:none !important;
+    }
+
+    .camera,
+    .home-indicator{
+        display:none !important;
+    }
+
+    .screen{
+        border-radius:0 !important;
+        width:100%;
+        height:100%;
+    }
+
+}
+
+.ipad.web-view .camera,
+.ipad.web-view .home-indicator{
+    display:none;
+}
+
+.ipad.web-view .screen{
+    border-radius:0;
+}
+
+/* SCREEN */
+.screen{
+    width:100%;
+    height:100%;
+    background:var(--screen-bg);
+    border-radius:30px;
+    overflow:hidden;
+    transition:.3s ease;
+}
+
+.camera{
+    position:absolute;
+    top:12px;
+    left:50%;
+    transform:translateX(-50%);
+    width:14px;
+    height:14px;
+    background:#0f172a;
+    border:2px solid rgba(255,255,255,.25);
+    border-radius:50%;
+    z-index:5;
+}
+
+.content{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:72px 30px 60px;
+    background:
+        radial-gradient(
+            circle at top,
+            rgba(0,113,227,.12),
+            transparent 45%
+        );
+}
+
+h1{
+    margin-bottom:18px;
+    letter-spacing:-.055em;
+    font-weight:700;
+    font-size:clamp(2.8rem,6vw,5.8rem);
+}
+
+h2{
+    max-width:650px;
+    margin-bottom:38px;
+    font-size:clamp(1rem,1.7vw,1.6rem);
+    color:var(--muted);
+    font-weight:600;
+    letter-spacing:-.02em;
+}
+
+/* BUTTONS */
+.button-row{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:190px;
+    padding:15px 25px;
+    border-radius:999px;
+    text-decoration:none;
+    font-weight:700;
+    color:white;
+    background:var(--primary);
+    box-shadow:0 6px 16px rgba(0,113,227,.22);
+    transition:transform .2s,background .2s,box-shadow .2s;
+}
+
+.button:hover{
+    transform:translateY(-2px);
+    background:var(--primary-dark);
+    box-shadow:0 9px 22px rgba(0,113,227,.3);
+}
+
+.button:focus-visible,
+.device-btn:focus-visible{
+    outline:3px solid rgba(0,113,227,.45);
+    outline-offset:3px;
+}
+
+.home-indicator{
+    position:absolute;
+    left:50%;
+    bottom:10px;
+    transform:translateX(-50%);
+    width:130px;
+    height:6px;
+    background:rgba(255,255,255,.4);
+    border-radius:999px;
+}
+</style>
 </head>
 
 <body>
 
-<div class="app-shell">
+<div class="device-selector">
+    <button class="device-btn active" data-device="ipad">
+        Phone/iPad
+    </button>
 
-    <h1>Mind2Voice</h1>
+    <button class="device-btn" data-device="web">
+        Web
+    </button>
 
-    <p class="subtitle">
-        AI Assisted Communication for Nonverbal Autism
-    </p>
-
-    <div class="nav-buttons">
-
-        <a href="letterboard.html" class="primary-btn">
-            Letter Board
-        </a>
-
-        <a href="phraseboard.html" class="primary-btn">
-            Phrase Board
-        </a>
-
-    </div>
-
-    <button id="themeToggle"
-    class="theme-btn">
+    <button class="device-btn" id="themeToggle">
         🌙 Dark
     </button>
 
+    <button class="device-btn" id="fullscreenBtn">
+        ⛶ Fullscreen
+    </button>
 </div>
 
-<script src="app.js"></script>
+<div class="ipad">
+
+    <div class="camera"></div>
+
+    <div class="screen">
+        <div class="content">
+
+            <h1>Mind2Voice</h1>
+
+            <h2>
+                AI Assisted Communication for Nonverbal Autism
+            </h2>
+
+            <div class="button-row">
+                <a href="letterboard.html" class="button">
+                    Letter Board
+                </a>
+
+                <a href="phraseboard.html" class="button">
+                    Phrase Board
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="home-indicator"></div>
+
+</div>
+
+<script>
+const device = document.querySelector('.ipad');
+const buttons = document.querySelectorAll('[data-device]');
+
+/* Device Switch */
+buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+
+        buttons.forEach(b =>
+            b.classList.remove('active')
+        );
+
+        btn.classList.add('active');
+
+        device.classList.remove('web-view');
+
+        if(btn.dataset.device === 'web'){
+            device.classList.add('web-view');
+        }
+    });
+});
+
+/* Theme Toggle */
+const themeToggle =
+    document.getElementById('themeToggle');
+
+function updateThemeButton() {
+
+    if(document.body.classList.contains('dark')){
+        themeToggle.textContent = '☀️ Light';
+    } else {
+        themeToggle.textContent = '🌙 Dark';
+    }
+
+}
+
+themeToggle.addEventListener('click', () => {
+
+    document.body.classList.toggle('dark');
+
+    localStorage.setItem(
+        'theme',
+        document.body.classList.contains('dark')
+            ? 'dark'
+            : 'light'
+    );
+
+    updateThemeButton();
+});
+
+/* Load Theme */
+const savedTheme =
+    localStorage.getItem('theme');
+
+if(savedTheme){
+
+    document.body.classList.toggle(
+        'dark',
+        savedTheme === 'dark'
+    );
+
+}else{
+
+    document.body.classList.toggle(
+        'dark',
+        window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        ).matches
+    );
+
+}
+
+updateThemeButton();
+/* Tablet Detection */
+const isTablet =
+    navigator.maxTouchPoints > 1 &&
+    Math.max(window.innerWidth, window.innerHeight) >= 820;
+
+if (isTablet) {
+
+    const selector =
+        document.querySelector('.device-selector');
+
+    if (selector) {
+        selector.style.display = 'none';
+    }
+
+    device.classList.add('web-view');
+}
+const fullscreenBtn =
+    document.getElementById('fullscreenBtn');
+
+fullscreenBtn.addEventListener('click', async () => {
+
+    try {
+
+        if (!document.fullscreenElement) {
+
+            await document.documentElement.requestFullscreen();
+
+            fullscreenBtn.textContent =
+                '✕ Exit';
+
+        } else {
+
+            await document.exitFullscreen();
+
+            fullscreenBtn.textContent =
+                '⛶ Fullscreen';
+
+        }
+
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+</script>
 
 </body>
 </html>
