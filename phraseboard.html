@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Phrase Board</title>
+<meta name="description" content="A simple, accessible phrase board for people who are nonverbal.">
+<link rel="stylesheet" href="Phrase.css">
+</head>
+<body>
+<noscript>This phrase board needs JavaScript turned on to work.</noscript>
+<div class="app">
+  <div class="topbar">
+    <a href="#" id="back">‹ Back</a>
+    <b>Phrase Board</b>
+    <button id="theme" type="button" aria-label="Toggle dark mode">🌓</button>
+  </div>
+ 
+  <section class="panel">
+    <div id="msg" class="msg empty" aria-live="polite">Tap phrases to build a message</div>
+    <div class="row">
+      <button class="btn main" id="speak" type="button">🔊 Speak</button>
+      <button class="btn" id="undo" type="button">⌫ Undo</button>
+      <button class="btn" id="clear" type="button">Clear</button>
+      <button class="btn" id="saveMsg" type="button">★ Save message</button>
+    </div>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+  </section>
+ 
+  <nav class="tabs" id="tabs" aria-label="Phrase categories"></nav>
+ 
+  <section id="mine" class="panel" hidden>
+    <form class="add" onsubmit="return false" aria-label="Save a new phrase">
+      <label for="newText">Type a phrase to save</label>
+      <input id="newText" type="text" maxlength="120" autocomplete="off" placeholder="Example: Please call my sister">
+      <button type="button" class="btn main" id="addBtn" style="flex:0 1 auto">Save phrase</button>
+    </form>
+  </section>
+ 
+  <main><div class="grid" id="grid"></div></main>
+ 
+  <div class="row">
+    <button class="btn" id="speakTap" type="button" aria-pressed="true">Speak on tap: On</button>
+    <button class="btn" id="size" type="button" aria-pressed="false">Tile size: Large</button>
+    <button class="btn" id="edit" type="button" aria-pressed="false" hidden>Edit saved phrases</button>
+  </div>
+</div>
+ 
+<script src="Phrase.js"></script>
+</body>
+</html>
