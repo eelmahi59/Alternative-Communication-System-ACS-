@@ -3,69 +3,629 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Mind2Voice">
+
 <title>Letter Board | Mind2Voice</title>
+
 <style>
-:root{color-scheme:light;--bg:#f5f5f7;--text:#1d1d1f;--muted:#6e6e73;--primary:#0071e3;--panel:#fff;--key:#fff;--border:rgba(0,0,0,.1);--shadow:rgba(0,0,0,.15)}
-body.dark{color-scheme:dark;--bg:#000;--text:#f5f5f7;--muted:#a1a1a6;--primary:#0a84ff;--panel:#1c1c1e;--key:#2c2c2e;--border:rgba(255,255,255,.12);--shadow:rgba(0,0,0,.45)}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background .2s,color .2s}.app{width:min(100%,1000px);min-height:100vh;margin:auto;padding:clamp(16px,4vw,36px);display:flex;flex-direction:column;gap:18px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}.topbar a,.topbar button{font:inherit}.topbar a{color:var(--primary);text-decoration:none;font-weight:700}.topbar button,.action{border:0;border-radius:999px;padding:10px 16px;background:var(--panel);color:var(--text);font-weight:700;cursor:pointer;box-shadow:0 3px 12px var(--shadow)}h1{font-size:clamp(1.7rem,4vw,2.5rem);letter-spacing:-.04em;margin:4px 0 0}.hint{margin:0;color:var(--muted)}.message{min-height:100px;padding:18px;background:var(--panel);border:2px solid var(--border);border-radius:20px;font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.4;overflow-wrap:anywhere;box-shadow:0 8px 24px var(--shadow)}.message:empty:before{content:"Your message will appear here…";color:var(--muted)}.controls{display:flex;flex-wrap:wrap;gap:10px}.action{background:var(--primary);color:#fff;font-size:1rem;min-height:48px}.action.secondary{background:var(--panel);color:var(--text);border:1px solid var(--border)}.keyboard{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}.key{min-height:clamp(48px,8vw,76px);border:1px solid var(--border);border-radius:16px;background:var(--key);color:var(--text);font-size:clamp(1.2rem,4vw,2rem);font-weight:700;cursor:pointer;box-shadow:0 3px 10px var(--shadow);touch-action:manipulation}.key:active,.action:active{transform:scale(.97)}button:focus-visible,a:focus-visible{outline:3px solid var(--primary);outline-offset:3px}.status{min-height:1.4em;color:var(--muted);font-size:.9rem}@media(max-width:520px){.app{padding:16px 12px}.keyboard{gap:7px}.key{border-radius:12px}.message{min-height:86px}.controls{gap:8px}.action{flex:1;padding:10px 12px}}
+
+:root{
+    --bg:#f5f5f7;
+    --panel:#ffffff;
+    --text:#1d1d1f;
+    --muted:#6e6e73;
+    --primary:#0071e3;
+    --shadow:rgba(0,0,0,.12);
+    --border:rgba(0,0,0,.08);
+}
+
+body.dark{
+    --bg:#000000;
+    --panel:#1c1c1e;
+    --text:#f5f5f7;
+    --muted:#a1a1a6;
+    --primary:#0a84ff;
+    --shadow:rgba(0,0,0,.4);
+    --border:rgba(255,255,255,.1);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+
+    font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "Segoe UI",
+    sans-serif;
+
+    min-height:100vh;
+
+    transition:.25s;
+}
+
+.app{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.home-link{
+    text-decoration:none;
+    color:var(--primary);
+    font-weight:700;
+    font-size:1.1rem;
+}
+
+.theme-btn{
+    border:none;
+    border-radius:999px;
+    padding:12px 18px;
+    cursor:pointer;
+    font-weight:700;
+
+    color:var(--text);
+    background:var(--panel);
+
+    box-shadow:0 4px 15px var(--shadow);
+}
+
+h1{
+    font-size:clamp(2rem,5vw,3.8rem);
+    letter-spacing:-0.05em;
+}
+
+.subtitle{
+    margin-top:8px;
+    color:var(--muted);
+    margin-bottom:20px;
+}
+
+.message{
+    min-height:130px;
+
+    background:var(--panel);
+
+    border-radius:28px;
+
+    padding:25px;
+
+    font-size:
+    clamp(1.7rem,4vw,2.5rem);
+
+    box-shadow:
+    0 10px 30px var(--shadow);
+
+    margin-bottom:15px;
+
+    overflow-wrap:anywhere;
+}
+
+.message:empty::before{
+    content:"Build your message here...";
+    color:var(--muted);
+}
+
+/* Prediction Bar */
+
+.predictions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+
+    margin-bottom:18px;
+}
+
+.suggestion{
+
+    border:none;
+
+    border-radius:999px;
+
+    padding:14px 18px;
+
+    background:#e8f1ff;
+
+    color:#0071e3;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    font-size:1rem;
+}
+
+body.dark .suggestion{
+    background:#11345a;
+    color:#6eb8ff;
+}
+
+/* Controls */
+
+.controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.action{
+
+    border:none;
+
+    border-radius:20px;
+
+    padding:16px 22px;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    font-size:1rem;
+}
+
+.primary{
+    background:var(--primary);
+    color:white;
+}
+
+.secondary{
+    background:var(--panel);
+    color:var(--text);
+}
+
+/* Keyboard */
+
+.keyboard{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.keyboard-row{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+.key{
+
+    min-width:70px;
+
+    min-height:92px;
+
+    border:none;
+
+    border-radius:24px;
+
+    background:var(--panel);
+
+    color:var(--text);
+
+    font-size:2rem;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 5px 18px var(--shadow);
+
+    transition:.15s;
+}
+
+.key:hover{
+    transform:translateY(-2px);
+}
+
+.key:active{
+    transform:scale(.96);
+}
+
+.space-btn{
+    margin-top:15px;
+    width:100%;
+}
+
+.status{
+    margin-top:12px;
+    color:var(--muted);
+}
+
+@media(max-width:768px){
+
+    .key{
+        min-width:0;
+        flex:1;
+        min-height:82px;
+        font-size:1.7rem;
+    }
+
+    .keyboard-row{
+        gap:6px;
+    }
+
+}
+
 </style>
 </head>
 <body>
-<main class="app">
-	<header class="topbar">
-		<a href="index.html" aria-label="Back to Mind2Voice home">← Mind2Voice</a>
-		<button id="themeToggle" type="button" aria-label="Toggle dark mode">🌙 Dark</button>
-	</header>
-	<section aria-labelledby="title">
-		<h1 id="title">Letter Board</h1>
-		<p class="hint">Tap letters to build a message, then choose an action.</p>
-	</section>
-	<div id="message" class="message" role="status" aria-live="polite" aria-label="Composed message"></div>
-	<div class="controls" aria-label="Message controls">
-		<button class="action" id="speak" type="button">🔊 Speak</button>
-		<button class="action secondary" id="space" type="button">Space</button>
-		<button class="action secondary" id="backspace" type="button" aria-label="Delete last character">⌫ Delete</button>
-		<button class="action secondary" id="clear" type="button">Clear</button>
-	</div>
-	<div class="keyboard" id="keyboard" role="group" aria-label="Letter keys"></div>
-	<p class="status" id="status" aria-live="polite"></p>
-</main>
+
+<div class="app">
+
+    <div class="topbar">
+
+        <a href="index.html"
+        class="home-link">
+            ← Mind2Voice
+        </a>
+
+        <button
+        id="themeToggle"
+        class="theme-btn">
+            🌙 Dark
+        </button>
+
+    </div>
+
+    <h1>Letter Board</h1>
+
+    <p class="subtitle">
+        Tap letters to communicate.
+    </p>
+
+    <div
+    id="message"
+    class="message"></div>
+
+    <div
+    id="predictions"
+    class="predictions"></div>
+
+    <div class="controls">
+
+        <button
+        id="speak"
+        class="action primary">
+            🔊 Speak
+        </button>
+
+        <button
+        id="backspace"
+        class="action secondary">
+            ⌫ Delete
+        </button>
+
+        <button
+        id="clear"
+        class="action secondary">
+            Clear
+        </button>
+
+    </div>
+
+    <div
+    id="keyboard"
+    class="keyboard">
+    </div>
+
+    <button
+    id="space"
+    class="action secondary space-btn">
+        Space
+    </button>
+
+    <p
+    id="status"
+    class="status">
+    </p>
+
+</div>
+
 <script>
-const message=document.getElementById('message');
-const status=document.getElementById('status');
-const keyboard=document.getElementById('keyboard');
-const keys='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-keys.forEach(letter=>{
-	const button=document.createElement('button');
-	button.type='button';button.className='key';button.textContent=letter;
-	button.setAttribute('aria-label',letter);
-	button.addEventListener('click',()=>{message.textContent+=letter;status.textContent='';});
-	keyboard.appendChild(button);
+
+const message =
+document.getElementById('message');
+
+const status =
+document.getElementById('status');
+
+const keyboard =
+document.getElementById('keyboard');
+
+/* -------------------------
+QWERTY Layout
+------------------------- */
+
+const keyboardRows = [
+
+'QWERTYUIOP',
+'ASDFGHJKL',
+'ZXCVBNM'
+
+];
+
+function speakLetter(letter){
+
+    if(
+        !('speechSynthesis' in window)
+    ) return;
+
+    speechSynthesis.cancel();
+
+    const utterance =
+    new SpeechSynthesisUtterance(letter);
+
+    utterance.rate = 1.2;
+
+    speechSynthesis.speak(
+        utterance
+    );
+
+}
+
+function updatePredictions(){
+
+    const predictionBar =
+    document.getElementById(
+    'predictions'
+    );
+
+    predictionBar.innerHTML = '';
+
+    const text =
+    message.textContent
+    .trim()
+    .toUpperCase();
+
+    const map = {
+
+        'I':[
+            'NEED',
+            'WANT',
+            'AM'
+        ],
+
+        'I NEED':[
+            'HELP',
+            'WATER',
+            'FOOD',
+            'BATHROOM'
+        ],
+
+        'I WANT':[
+            'WATER',
+            'HOME',
+            'FOOD',
+            'TOY'
+        ]
+
+    };
+
+    const suggestions =
+    map[text] || [];
+
+    suggestions.forEach(word=>{
+
+        const btn =
+        document.createElement('button');
+
+        btn.className =
+        'suggestion';
+
+        btn.textContent =
+        word;
+
+        btn.onclick = ()=>{
+
+            if(message.textContent){
+                message.textContent +=
+                ' ';
+            }
+
+            message.textContent +=
+            word;
+
+            updatePredictions();
+        };
+
+        predictionBar.appendChild(btn);
+
+    });
+
+}
+
+function addLetter(letter){
+
+    message.textContent += letter;
+
+    speakLetter(letter);
+
+    updatePredictions();
+
+}
+
+keyboardRows.forEach(row=>{
+
+    const rowDiv =
+    document.createElement('div');
+
+    rowDiv.className =
+    'keyboard-row';
+
+    row.split('').forEach(letter=>{
+
+        const btn =
+        document.createElement('button');
+
+        btn.className =
+        'key';
+
+        btn.textContent =
+        letter;
+
+        btn.onclick =
+        ()=>addLetter(letter);
+
+        rowDiv.appendChild(btn);
+
+    });
+
+    keyboard.appendChild(rowDiv);
+
 });
-document.getElementById('space').addEventListener('click',()=>{if(message.textContent&&!message.textContent.endsWith(' '))message.textContent+=' ';});
-document.getElementById('backspace').addEventListener('click',()=>{message.textContent=message.textContent.slice(0,-1);});
-document.getElementById('clear').addEventListener('click',()=>{message.textContent='';status.textContent='Message cleared.';});
-document.getElementById('speak').addEventListener('click',()=>{
-	const text=message.textContent.trim();
-	if(!text){status.textContent='Add a message before speaking.';return;}
-	if(!('speechSynthesis' in window)){status.textContent='Speech is not available in this browser.';return;}
-	window.speechSynthesis.cancel();
-	const utterance=new SpeechSynthesisUtterance(text);
-	utterance.onstart=()=>{status.textContent='Speaking…';};
-	utterance.onend=()=>{status.textContent='';};
-	utterance.onerror=()=>{status.textContent='Speech could not be played.';};
-	window.speechSynthesis.speak(utterance);
-});
-const themeToggle=document.getElementById('themeToggle');
-function updateTheme(){const dark=document.body.classList.contains('dark');themeToggle.textContent=dark?'☀️ Light':'🌙 Dark';themeToggle.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');}
-themeToggle.addEventListener('click',()=>{document.body.classList.toggle('dark');localStorage.setItem('theme',document.body.classList.contains('dark')?'dark':'light');updateTheme();});
-const savedTheme=localStorage.getItem('theme');
-if(savedTheme)document.body.classList.toggle('dark',savedTheme==='dark');
-else document.body.classList.toggle('dark',window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+/* Controls */
+
+document.getElementById(
+'space'
+).onclick = ()=>{
+
+    if(
+        message.textContent &&
+        !message.textContent.endsWith(' ')
+    ){
+        message.textContent += ' ';
+    }
+
+    updatePredictions();
+
+};
+
+document.getElementById(
+'backspace'
+).onclick = ()=>{
+
+    message.textContent =
+    message.textContent.slice(
+    0,
+    -1
+    );
+
+    updatePredictions();
+
+};
+
+document.getElementById(
+'clear'
+).onclick = ()=>{
+
+    message.textContent = '';
+
+    status.textContent =
+    'Message cleared';
+
+    updatePredictions();
+
+};
+
+document.getElementById(
+'speak'
+).onclick = ()=>{
+
+    const text =
+    message.textContent.trim();
+
+    if(!text){
+        status.textContent =
+        'Create a message first.';
+        return;
+    }
+
+    speechSynthesis.cancel();
+
+    const speech =
+    new SpeechSynthesisUtterance(
+    text);
+
+    speech.rate = .9;
+
+    speech.onstart = ()=>{
+        status.textContent =
+        'Speaking...';
+    };
+
+    speech.onend = ()=>{
+        status.textContent =
+        '';
+    };
+
+    speechSynthesis.speak(
+    speech
+    );
+
+};
+
+/* Theme */
+
+const themeToggle =
+document.getElementById(
+'themeToggle'
+);
+
+function updateTheme(){
+
+    themeToggle.textContent =
+    document.body.classList.contains(
+    'dark'
+    )
+    ? '☀️ Light'
+    : '🌙 Dark';
+
+}
+
+themeToggle.onclick = ()=>{
+
+    document.body.classList.toggle(
+    'dark'
+    );
+
+    localStorage.setItem(
+    'theme',
+    document.body.classList.contains(
+    'dark'
+    )
+    ? 'dark'
+    : 'light'
+    );
+
+    updateTheme();
+
+};
+
+const savedTheme =
+localStorage.getItem(
+'theme'
+);
+
+if(savedTheme){
+    document.body.classList.toggle(
+    'dark',
+    savedTheme==='dark'
+    );
+}
+
 updateTheme();
+
+updatePredictions();
+
 </script>
+
 </body>
 </html>

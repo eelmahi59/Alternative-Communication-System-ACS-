@@ -42,7 +42,7 @@ body.dark{
 }
 
 body{
-    min-height:100vh;
+    min-height:100dvh;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -94,8 +94,9 @@ body.dark .device-btn.active{
 /* IPAD FRAME */
 .ipad{
     position:relative;
-    width:min(82vw,860px);
+    width:min(82vw,860px,calc((100dvh - 36px) * 1.43));
     aspect-ratio:1.43;
+    max-height:calc(100dvh - 36px);
     background:linear-gradient(145deg,#3a3a3c,#101012);
     border-radius:40px;
     padding:16px 16px 20px;
@@ -181,12 +182,14 @@ body.dark .device-btn.active{
 
 .content{
     height:100%;
+    min-height:0;
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
     text-align:center;
-    padding:72px 30px 60px;
+    padding:clamp(18px,7vh,72px) clamp(16px,4vw,30px);
+    overflow-y:auto;
     background:
         radial-gradient(
             circle at top,
@@ -196,16 +199,16 @@ body.dark .device-btn.active{
 }
 
 h1{
-    margin-bottom:18px;
+    margin-bottom:clamp(10px,2.5vh,18px);
     letter-spacing:-.055em;
     font-weight:700;
-    font-size:clamp(2.8rem,6vw,5.8rem);
+    font-size:clamp(2rem,6vw,5.8rem);
 }
 
 h2{
     max-width:650px;
-    margin-bottom:38px;
-    font-size:clamp(1rem,1.7vw,1.6rem);
+    margin-bottom:clamp(16px,5vh,38px);
+    font-size:clamp(.95rem,1.7vw,1.6rem);
     color:var(--muted);
     font-weight:600;
     letter-spacing:-.02em;
@@ -214,7 +217,7 @@ h2{
 /* BUTTONS */
 .button-row{
     display:flex;
-    gap:14px;
+    gap:clamp(8px,1.5vw,14px);
     flex-wrap:wrap;
     justify-content:center;
 }
@@ -223,8 +226,8 @@ h2{
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    min-width:190px;
-    padding:15px 25px;
+    min-width:clamp(145px,20vw,190px);
+    padding:clamp(11px,2.2vh,15px) clamp(16px,3vw,25px);
     border-radius:999px;
     text-decoration:none;
     font-weight:700;
