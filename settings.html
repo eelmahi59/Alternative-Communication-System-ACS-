@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Mind2Voice">
+
+<title>Settings | Mind2Voice</title>
+
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
+</head>
+
+<body class="settings" data-page="settings">
+
+<div class="app">
+
+    <header class="topbar">
+        <a href="index.html">← Mind2Voice</a>
+    </header>
+
+    <main>
+
+        <div>
+            <h1>Settings</h1>
+            <p class="lead">Changes save on this device.</p>
+        </div>
+
+        <section class="group" aria-labelledby="h-look">
+            <h2 id="h-look">Look</h2>
+
+            <div class="row">
+                <span class="label">Theme</span>
+                <div class="controls" role="group" aria-label="Theme">
+                    <button class="action secondary" id="themeLight" type="button" aria-pressed="false">☀️ Light</button>
+                    <button class="action secondary" id="themeDark" type="button" aria-pressed="false">🌙 Dark</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div>
+                    <span class="label">Phrase tile size</span>
+                    <span class="help">Extra large tiles are easier to tap.</span>
+                </div>
+                <div class="controls" role="group" aria-label="Phrase tile size">
+                    <button class="action secondary" id="tileLg" type="button" aria-pressed="true">Large</button>
+                    <button class="action secondary" id="tileXl" type="button" aria-pressed="false">Extra large</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="group" aria-labelledby="h-voice">
+            <h2 id="h-voice">Voice</h2>
+
+            <div class="row">
+                <div>
+                    <label class="label" for="voice">Voice</label>
+                    <span class="help" id="voiceNote">Voices come from this device.</span>
+                </div>
+                <select id="voice"></select>
+            </div>
+
+            <div class="row">
+                <div>
+                    <label class="label" for="rate">Speaking speed</label>
+                    <span class="help">Slower can be easier to follow.</span>
+                </div>
+                <div class="controls">
+                    <input id="rate" type="range" min="0.6" max="1.4" step="0.05" value="1">
+                    <output id="rateOut" for="rate">1.00×</output>
+                    <button class="action secondary" id="hear" type="button">🔊 Hear it</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="group" aria-labelledby="h-phrase">
+            <h2 id="h-phrase">Phrase Board</h2>
+
+            <div class="row">
+                <div>
+                    <span class="label" id="l-speaktap">Speak when a phrase is tapped</span>
+                    <span class="help">Turn off to build a whole message first.</span>
+                </div>
+                <button class="action secondary" id="speakTap" type="button" role="switch" aria-checked="true" aria-labelledby="l-speaktap">On</button>
+            </div>
+
+            <div class="row">
+                <div>
+                    <span class="label">My phrases</span>
+                    <span class="help" id="phraseCount">You have 0 saved phrases.</span>
+                </div>
+                <div class="controls">
+                    <button class="action secondary" id="clearAsk" type="button">Delete all saved phrases</button>
+                    <span id="clearConfirm" class="controls" role="group" aria-label="Confirm delete" hidden>
+                        <button class="action" id="clearYes" type="button">Yes, delete them</button>
+                        <button class="action secondary" id="clearNo" type="button">Keep them</button>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+
+    </main>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
