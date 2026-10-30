@@ -1,0 +1,26 @@
+{
+  "QUICK": ["Yes", "No", "Help", "More", "Stop", "All done", "Wait", "I need a break"],
+  "CATS": [
+    ["Food", "food"],
+    ["Emotions", "face"],
+    ["Family", "caregiver"],
+    ["School", "school"],
+    ["Medical", "medical"],
+    ["Daily Needs", "daily"]
+  ],
+  "PHRASES": {
+    "Food": ["I'm hungry.", "I'm thirsty.", "Can I have water?", "I want a snack.", "More please.", "I want juice.", "I don't like this.", "I'm all done eating.", "Something crunchy.", "Something warm.", "I want fruit.", "Can I have milk?"],
+    "Emotions": ["I feel happy.", "I feel sad.", "I feel mad.", "I feel scared.", "I feel calm.", "I feel silly.", "I'm worried.", "I'm excited.", "I feel sick.", "I'm proud of myself."],
+    "Family": ["I love you.", "Where is Mom?", "Where is Dad?", "Can I have a hug?", "I miss you.", "Can we call Grandma?", "Play with me.", "Thank you.", "Can you sit with me?", "I want to show you something."],
+    "School": ["I need help.", "I don't understand.", "Can I go to the bathroom?", "I'm finished.", "Can I have a break?", "Please say it again.", "It's too loud.", "I need more time.", "Can I try?", "I have a question."],
+    "Medical": ["I'm in pain.", "My head hurts.", "My tummy hurts.", "I feel sick.", "I need my medicine.", "I'm too hot.", "I'm too cold.", "I need a doctor.", "My ears hurt.", "It hurts here.", "I feel dizzy."],
+    "Daily Needs": ["I need the bathroom.", "I'm tired.", "I want to sleep.", "I want to go outside.", "I want to play.", "I want to change my clothes.", "I want my headphones.", "Please turn the light off.", "I want to go home.", "I need my blanket.", "I want to watch a video.", "I want music."]
+  },
+  "EXTRA": ["I want more.", "Can I have a snack?", "Can we go home?", "I don't want that.", "Please stop.", "Can you help me?", "I want to go outside.", "I need a break.", "I want to listen to music."],
+  "SUGGEST": {
+    "morning": ["Good morning.", "I'm hungry.", "I want breakfast.", "I need to get ready."],
+    "midday": ["I'm hungry.", "I want lunch.", "Can I have water?", "I need a break."],
+    "afternoon": ["I'm finished.", "I want a snack.", "I want to play.", "Can we go outside?"],
+    "evening": ["I'm tired.", "I want a bath.", "I want to sleep.", "Good night."]
+  }
+}

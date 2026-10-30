@@ -1,73 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Mind2Voice">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mind2Voice</title>
-
-<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="Phrase.css">
 <link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
 </head>
-
-<body class="home" data-page="home">
-
-<div class="device-selector">
-    <button type="button" class="device-btn active" data-device="ipad" aria-pressed="true">
-        Phone/iPad
-    </button>
-
-    <button type="button" class="device-btn" data-device="web" aria-pressed="false">
-        Web
-    </button>
-
-    <button type="button" class="device-btn" id="themeToggle" data-theme-toggle="text">
-        🌙 Dark
-    </button>
-
-    <button type="button" class="device-btn" id="fullscreenBtn">
-        ⛶ Fullscreen
-    </button>
+<body data-screen="home">
+<div class="stage" id="stage" data-mode="tablet">
+<header class="toolbar">
+<div class="brand">
+<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="10" style="fill:var(--black)"/><path d="M5 17h4l3-8 4 15 3.5-11 2 4H27" style="fill:none;stroke:var(--on-black)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+Mind2Voice
 </div>
-
-<div class="ipad">
-
-    <div class="camera"></div>
-
-    <div class="screen">
-        <div class="content">
-
-            <h1>Mind2Voice</h1>
-
-            <h2>
-                AI Assisted Communication for Nonverbal Autism
-            </h2>
-
-            <div class="button-row">
-                <a href="letterboard.html" class="button">
-                    Letter Board
-                </a>
-
-                <a href="phraseboard.html" class="button">
-                    Phrase Board
-                </a>
-
-                <a href="settings.html" class="button secondary">
-                    Settings
-                </a>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="home-indicator"></div>
-
+<div class="seg modeseg" role="group" aria-label="Preview size" id="modeseg">
 </div>
-
+</header>
+<div class="viewport">
+<div class="device">
+<div class="screen" id="screen">
+<div class="app" id="app"></div>
+<div id="sheet"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+</div>
+</div>
+</div>
+<script src="Phrase.js"></script>
+<script src="script.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

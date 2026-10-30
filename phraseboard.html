@@ -1,66 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Mind2Voice">
-<meta name="description" content="A simple, accessible phrase board for people who are nonverbal.">
-
-<title>Phrase Board | Mind2Voice</title>
-
-<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-<link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mind2Voice - Phrase Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="Phrase.css">
-<script src="script.js"></script>
+<link rel="stylesheet" href="style.css">
 </head>
-
-<body class="phrases" data-page="phrases">
-<noscript>This phrase board needs JavaScript turned on to work.</noscript>
-
-<div class="app">
-  <div class="topbar">
-    <a href="index.html">‹ Back</a>
-    <b>Phrase Board</b>
-    <button id="theme" type="button" aria-label="Dark mode" data-theme-toggle="icon">🌓</button>
-  </div>
-
-  <p class="empty-note" id="notice" role="status" hidden>
-    Showing basic phrases only. The full phrase list could not be loaded. Open Mind2Voice from its web address to see every phrase.
-  </p>
-
-  <section class="panel">
-    <div id="msg" class="msg empty" aria-live="polite">Tap phrases to build a message</div>
-    <div class="row">
-      <button class="btn main" id="speak" type="button">🔊 Speak</button>
-      <button class="btn" id="undo" type="button">⌫ Undo</button>
-      <button class="btn" id="clear" type="button">Clear</button>
-      <button class="btn" id="saveMsg" type="button">★ Save message</button>
-    </div>
-    <p class="status" id="status" role="status" aria-live="polite"></p>
-  </section>
-
-  <nav class="tabs" id="tabs" aria-label="Phrase categories"></nav>
-
-  <section id="mine" class="panel" hidden>
-    <form class="add" onsubmit="return false" aria-label="Save a new phrase">
-      <label for="newText">Type a phrase to save</label>
-      <input id="newText" type="text" maxlength="120" autocomplete="off" placeholder="Example: Please call my sister">
-      <button type="button" class="btn main" id="addBtn" style="flex:0 1 auto">Save phrase</button>
-    </form>
-  </section>
-
-  <main><div class="grid" id="grid"></div></main>
-
-  <div class="row">
-    <button class="btn" id="speakTap" type="button" aria-pressed="true">Speak on tap: On</button>
-    <button class="btn" id="size" type="button" aria-pressed="false">Tile size: Large</button>
-    <button class="btn" id="edit" type="button" aria-pressed="false" hidden>Edit saved phrases</button>
-  </div>
+<body data-screen="phrases">
+<div class="stage" id="stage" data-mode="tablet">
+<header class="toolbar">
+<div class="brand">
+<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="10" style="fill:var(--black)"/><path d="M5 17h4l3-8 4 15 3.5-11 2 4H27" style="fill:none;stroke:var(--on-black)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+Mind2Voice
 </div>
-
+<div class="seg modeseg" role="group" aria-label="Preview size" id="modeseg">
+<button type="button" data-mode-btn="tablet" aria-pressed="true">Tablet</button>
+<button type="button" data-mode-btn="web" aria-pressed="false">Full-screen web</button>
+</div>
+</header>
+<div class="viewport">
+<div class="device">
+<div class="screen" id="screen">
+<div class="app" id="app"></div>
+<div id="sheet"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+</div>
+</div>
+</div>
 <script src="Phrase.js"></script>
+<script src="script.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
