@@ -32,25 +32,7 @@ frustrated:'<path d="M15 33l3.5-3 3.5 3 3.5-3 3.5 3 3-3"/><path d="M13 22h8M27 2
 anxious:'<path d="M16 34q4-3.5 8 0t8 0"/><circle cx="17" cy="22" r="3.2"/><circle cx="31" cy="22" r="3.2"/><path d="M13 14q4-3 8-1M35 14q-4-3-8-1"/><path d="M41 8q3 4 0 7-3-3 0-7z"/>'
 };
 function face(k){return '<svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="19"/>'+FACES[k]+'</svg>';}
-function isIPadPro11() {
-  const w = window.screen.width;
-  const h = window.screen.height;
 
-  const sizes = [
-    [834, 1194],
-    [1194, 834]
-  ];
-
-  return sizes.some(
-    ([sw, sh]) =>
-      (w === sw && h === sh) ||
-      (w === sh && h === sw)
-  );
-}
-
-if (isIPadPro11()) {
-  document.documentElement.classList.add('ipad-pro-11');
-}
 /* ================= data ================= */
 var NAV=[
 ['home','Home','Home','Home'],

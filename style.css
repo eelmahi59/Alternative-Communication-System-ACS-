@@ -453,15 +453,3 @@ button, .sw {
         transition: none;
     }
 }
-.ipad-pro-11 .app {
-    width: 100%;
-    max-width: 100%;
-}
-
-.ipad-pro-11 .main {
-    width: 100%;
-}
-
-.ipad-pro-11 .board {
-    width: 100%;
-}
