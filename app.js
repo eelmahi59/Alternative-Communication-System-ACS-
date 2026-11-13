@@ -199,8 +199,21 @@ breathTimer=setInterval(function(){var t=document.getElementById('breathTxt');if
 function stopBreath(){if(breathTimer){clearInterval(breathTimer);breathTimer=null;}}
 
 /* ================= environment ================= */
+function isNative(){
+var standalone=false;
+try{standalone=window.navigator.standalone===true||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches);}catch(e){}
+var touch=false;
+try{touch=window.matchMedia&&matchMedia('(pointer:coarse)').matches&&(navigator.maxTouchPoints||0)>0;}catch(e){}
+return standalone||touch;
+}
+function autoMode(){
+var w=window.innerWidth;
+return w<=700?'phone':(w>=1000?'web':'tablet');
+}
 function applyEnv(){
-stage.dataset.mode=mq.matches?'phone':S.mode;
+var native=isNative();
+document.documentElement.classList.toggle('native',native);
+stage.dataset.mode=native?autoMode():(mq.matches?'phone':S.mode);
 stage.classList.toggle('reduce',!!S.settings.reduce);
 app.classList.toggle('nav-hidden',!!S.navHidden);
 $$('[data-mode-btn]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.modeBtn===S.mode));});
@@ -327,6 +340,7 @@ var b=e.target.closest('[data-mode-btn]');if(!b)return;
 S.mode=b.dataset.modeBtn;save();applyEnv();
 });
 if(mq.addEventListener)mq.addEventListener('change',applyEnv);
+window.addEventListener('resize',applyEnv);window.addEventListener('orientationchange',function(){setTimeout(applyEnv,200);});
 try{if(window.speechSynthesis)speechSynthesis.addEventListener('voiceschanged',function(){if(S.screen==='settings')render();});}catch(e){}
 
 /* ================= boot ================= */

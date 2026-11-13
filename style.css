@@ -453,3 +453,16 @@ button, .sw {
         transition: none;
     }
 }
+
+/* ---------- Native fit: installed app / real tablet ----------
+   JS adds .native on <html> when running standalone or on a touch tablet/phone.
+   Removes the preview toolbar and device frame so the app fills the whole screen. */
+html.native,html.native body{height:100%;overflow:hidden;overscroll-behavior:none}
+html.native body{padding:0;background:var(--bg);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+html.native .stage{position:fixed;inset:0;height:100vh;height:100dvh;min-height:0;gap:0}
+html.native .toolbar{display:none}
+html.native .viewport{padding:0;align-items:stretch}
+html.native .device{height:100%;width:100%;aspect-ratio:auto;max-width:none;padding:0;border:0;border-radius:0;background:none;box-shadow:none}
+html.native .screen{border-radius:0;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);background:var(--bg)}
+html.native .app{height:100%}
+html.native input,html.native textarea{-webkit-user-select:text;user-select:text}
