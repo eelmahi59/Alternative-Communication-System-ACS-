@@ -50,7 +50,7 @@ var TONEP={calm:{rate:.85,pitch:.95,vol:.9},cheerful:{rate:1.02,pitch:1.2,vol:1}
 var KEY='m2v-proto-1';
 var S={
 screen:'home',mode:'tablet',msg:'',hist:[],lastKind:'',tone:'calm',cat:'Food',kb:'abc',
-emo:null,lvl:1,body:null,breathing:false,tokens:[],cg:false,confirmReset:false,speaking:false,navHidden:false,
+emo:null,lvl:1,body:null,breathing:false,tokens:[],cg:false,confirmReset:false,speaking:false,navHidden:true,
 custom:[],usage:{phr:{},words:{},ai:{},days:{}},
 settings:{name:'',voice:'',rate:1,touchGuard:0,speakOnTap:true,size:'lg',theme:'auto',reduce:false,calm:true,predict:true}
 };
@@ -259,6 +259,20 @@ screenEl.addEventListener('pointerup',endPress);
 screenEl.addEventListener('pointercancel',endPress);
 screenEl.addEventListener('pointerleave',endPress,true);
 
+/* ================= auto-hide menu ================= */
+var navT=null;
+function armNav(){
+clearTimeout(navT);
+if(S.navHidden)return;
+navT=setTimeout(function(){if(!S.navHidden){S.navHidden=true;applyEnv();render();}},6000);
+}
+screenEl.addEventListener('pointerdown',function(e){if(!S.navHidden&&e.target.closest('.rail'))armNav();});
+/* runs after the main click handler: any tap outside the menu closes it */
+screenEl.addEventListener('click',function(e){
+if(S.navHidden||e.target.closest('.rail')||e.target.closest('.navtoggle'))return;
+S.navHidden=true;applyEnv();render();
+});
+
 /* ================= actions ================= */
 screenEl.addEventListener('click',function(e){
 var el=e.target.closest('[data-a]');
@@ -275,8 +289,8 @@ function go(s,reset){S.screen=s;S.confirmReset=false;render(reset!==false);}
 function act(el,e){
 var a=el.dataset.a;
 switch(a){
-case 'nav':go(el.dataset.s);break;
-case 'navtoggle':S.navHidden=!S.navHidden;applyEnv();render();break;
+case 'nav':S.navHidden=true;applyEnv();go(el.dataset.s);break;
+case 'navtoggle':S.navHidden=!S.navHidden;applyEnv();render();armNav();break;
 case 'say':speak(el.dataset.t,'quick');toast('Said: '+el.dataset.t);break;
 case 'speak':speak(S.msg,(S.screen==='letters'||S.screen==='ai')?'own':'phrase');break;
 case 'undo':S.msg=S.hist.pop()||'';S.lastKind='';render();break;
