@@ -50,7 +50,7 @@ var TONEP={calm:{rate:.85,pitch:.95,vol:.9},cheerful:{rate:1.02,pitch:1.2,vol:1}
 var KEY='m2v-proto-1';
 var S={
 screen:'home',mode:'tablet',msg:'',hist:[],lastKind:'',tone:'calm',cat:'Food',kb:'abc',
-emo:null,lvl:1,body:null,breathing:false,tokens:[],cg:false,confirmReset:false,speaking:false,navHidden:true,
+emo:null,lvl:1,body:null,breathing:false,tokens:[],cg:false,confirmReset:false,speaking:false,navHidden:false,
 custom:[],usage:{phr:{},words:{},ai:{},days:{}},
 settings:{name:'',voice:'',rate:1,touchGuard:0,speakOnTap:true,size:'lg',theme:'auto',reduce:false,calm:true,predict:true}
 };
@@ -208,7 +208,7 @@ return standalone||touch;
 }
 function autoMode(){
 var w=window.innerWidth;
-return w<=700?'phone':(w>=1000?'web':'tablet');
+return w<=700?'phone':'tablet';
 }
 function applyEnv(){
 var native=isNative();
@@ -360,4 +360,5 @@ try{if(window.speechSynthesis)speechSynthesis.addEventListener('voiceschanged',f
 /* ================= boot ================= */
 applyEnv();
 render(true);
+armNav();
 loadPhrases().then(function(){render(true);});
