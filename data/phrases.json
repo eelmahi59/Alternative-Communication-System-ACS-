@@ -2,25 +2,27 @@
   "QUICK": ["Yes", "No", "Help", "More", "Stop", "All done", "Wait", "I need a break"],
   "CATS": [
     ["Food", "food"],
-    ["Emotions", "face"],
-    ["Family", "caregiver"],
-    ["School", "school"],
-    ["Medical", "medical"],
-    ["Daily Needs", "daily"]
+    ["Feelings", "face"],
+    ["People", "caregiver"],
+    ["Class", "school"],
+    ["Health", "medical"],
+    ["Daily", "daily"],
+    ["Social", "phrases"]
   ],
   "PHRASES": {
-    "Food": ["I'm hungry.", "I'm thirsty.", "Can I have water?", "I want a snack.", "More please.", "I want juice.", "I don't like this.", "I'm all done eating.", "Something crunchy.", "Something warm.", "I want fruit.", "Can I have milk?"],
-    "Emotions": ["I feel happy.", "I feel sad.", "I feel mad.", "I feel scared.", "I feel calm.", "I feel silly.", "I'm worried.", "I'm excited.", "I feel sick.", "I'm proud of myself."],
-    "Family": ["I love you.", "Where is Mom?", "Where is Dad?", "Can I have a hug?", "I miss you.", "Can we call Grandma?", "Play with me.", "Thank you.", "Can you sit with me?", "I want to show you something."],
-    "School": ["I need help.", "I don't understand.", "Can I go to the bathroom?", "I'm finished.", "Can I have a break?", "Please say it again.", "It's too loud.", "I need more time.", "Can I try?", "I have a question."],
-    "Medical": ["I'm in pain.", "My head hurts.", "My tummy hurts.", "I feel sick.", "I need my medicine.", "I'm too hot.", "I'm too cold.", "I need a doctor.", "My ears hurt.", "It hurts here.", "I feel dizzy."],
-    "Daily Needs": ["I need the bathroom.", "I'm tired.", "I want to sleep.", "I want to go outside.", "I want to play.", "I want to change my clothes.", "I want my headphones.", "Please turn the light off.", "I want to go home.", "I need my blanket.", "I want to watch a video.", "I want music."]
+    "Food": ["I'm hungry.", "I'm thirsty.", "Can I have some water?", "I'd like a snack.", "I'd like some coffee.", "Could I get something to eat?", "I don't like this.", "I'm finished eating.", "I'd like something warm.", "I'd like something cold.", "I'd like some fruit.", "Could you order for me?", "Can we get lunch?", "I'd like more, please."],
+    "Feelings": ["I'm feeling good today.", "I'm feeling down.", "I'm frustrated.", "I'm anxious.", "I'm feeling calm.", "I'm excited.", "I'm overwhelmed.", "I'm stressed.", "I'm proud of myself.", "I need some space.", "I'm not feeling well.", "I'm just tired."],
+    "People": ["I love you.", "Can you call my mom?", "Can you call my dad?", "Can I have a hug?", "I miss you.", "Thank you.", "Can you sit with me?", "I want to show you something.", "I appreciate you.", "I'm sorry.", "Can we talk?", "Can you text my family?"],
+    "Class": ["I need help.", "I don't understand.", "Could you repeat that?", "I need more time.", "I have a question.", "Can I answer on my device?", "I'd like to take a break.", "I need to use the restroom.", "Could you share the notes?", "Could we talk after class?", "I'm finished.", "It's too loud in here."],
+    "Health": ["I'm in pain.", "I have a headache.", "My stomach hurts.", "I feel nauseous.", "I need my medication.", "I'm too hot.", "I'm too cold.", "I need a doctor.", "I feel dizzy.", "It hurts here.", "I need to sit down.", "Please call someone for me."],
+    "Daily": ["I need the restroom.", "I'm tired.", "I'd like to rest.", "I'd like to go outside.", "I want to go home.", "I need my charger.", "I'd like my headphones.", "Could you turn the light off?", "Could you turn the light on?", "I'd like some privacy.", "I need my phone.", "I'd like to listen to music.", "Can you help me get ready?", "I'd like to get a ride."],
+    "Social": ["Hello.", "Hi, how are you?", "Nice to meet you.", "I use this app to talk.", "Please give me a moment to respond.", "Thanks for waiting.", "Can we hang out?", "Want to grab food?", "What are you up to?", "Sounds good.", "I'll catch you later.", "That's funny."]
   },
-  "EXTRA": ["I want more.", "Can I have a snack?", "Can we go home?", "I don't want that.", "Please stop.", "Can you help me?", "I want to go outside.", "I need a break.", "I want to listen to music."],
+  "EXTRA": ["I'd like more.", "Could I get a snack?", "Can we go home?", "I don't want that.", "Please stop.", "Can you help me?", "I'd like to go outside.", "I need a break.", "I'd like to listen to music."],
   "SUGGEST": {
-    "morning": ["Good morning.", "I'm hungry.", "I want breakfast.", "I need to get ready."],
-    "midday": ["I'm hungry.", "I want lunch.", "Can I have water?", "I need a break."],
-    "afternoon": ["I'm finished.", "I want a snack.", "I want to play.", "Can we go outside?"],
-    "evening": ["I'm tired.", "I want a bath.", "I want to sleep.", "Good night."]
+    "morning": ["Good morning.", "I'd like some coffee.", "I'm hungry.", "I need a minute to get ready."],
+    "midday": ["I'm hungry.", "Want to grab lunch?", "Can I have some water?", "I need a break."],
+    "afternoon": ["I'm finished for today.", "I'd like a snack.", "Do you want to hang out?", "Can we go outside?"],
+    "evening": ["I'm tired.", "I'd like to head home.", "I need to rest.", "Good night."]
   }
 }
