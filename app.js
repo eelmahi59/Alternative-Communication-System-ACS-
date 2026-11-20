@@ -223,6 +223,7 @@ Object.keys(vals).forEach(function(k){var e=document.getElementById(k);if(e&&k!=
 var b1=$('#board');if(b1&&!resetScroll)b1.scrollTop=top;
 if(id){var el=document.querySelector('[data-id="'+id.replace(/"/g,'\\"')+'"]');if(el&&!el.disabled){try{el.focus({preventScroll:true});}catch(e){}}}
 stage.dataset.size=S.settings.size;
+app.dataset.view=S.screen;
 app.dataset.size=S.settings.size;
 if(!S.breathing)stopBreath();else startBreath();
 restoreKb();

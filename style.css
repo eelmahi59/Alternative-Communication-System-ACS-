@@ -495,3 +495,28 @@ background-color:var(--surface);background-image:linear-gradient(var(--fill,var(
 .cdisp{position:sticky;top:0;z-index:3}
 .cdisp .btn.speak{flex:none;min-height:60px;font-size:1.2rem}
 .quick .tile{padding:10px;font-size:clamp(1.1rem,1.8vw,1.55rem);overflow-wrap:anywhere}
+
+/* v3: letter board fits the screen (no scrolling), calculator centered */
+.app[data-view="letters"] .head{padding-top:10px;padding-bottom:0}
+.app[data-view="letters"] .head h1{font-size:1.7rem}
+.app[data-view="letters"] .head p{display:none}
+.app[data-view="letters"] .page{gap:8px;padding:6px 20px 12px}
+.app[data-view="letters"] .voice{padding:10px 14px;gap:8px}
+.app[data-view="letters"] .vmsg{min-height:40px;max-height:76px;font-size:clamp(1.3rem,2.4vw,1.8rem)}
+[data-mode="web"] .app[data-view="letters"] .vmsg{max-height:none;min-height:120px}
+.app[data-view="letters"] .btn.speak{min-height:52px;font-size:1.2rem}
+.app[data-view="letters"] .vrow .btn{min-height:48px;padding:8px 16px}
+.app[data-view="letters"] .vtone .lbl{display:none}
+.app[data-view="letters"] .vtone .seg button{min-height:36px;padding:4px 14px}
+.app[data-view="letters"] .board{overflow:hidden;gap:8px;padding:2px}
+.app[data-view="letters"] .kbtrack{min-height:0}
+.app[data-view="letters"] .krow{min-height:0}
+.app[data-view="letters"] .krow.space{flex:none;min-height:0;height:clamp(48px,8vh,72px)}
+.app[data-view="letters"] .kbbar .seg button{min-height:40px}
+.app[data-view="letters"] .kbarrows .btn{min-height:44px}
+.app[data-view="letters"] .preds .chip{min-height:44px;padding:6px 16px}
+.app[data-view="letters"] .kbdots{flex:none}
+@media (max-height:900px){.app[data-view="letters"] .preds .comps,.app[data-view="letters"] .kbdots span{display:none}}
+.calc{margin-left:auto;margin-right:auto;width:100%}
+.app[data-view="letters"] .head{padding-bottom:8px}
+.app[data-view="letters"] .navtoggle{top:6px;width:48px;height:48px;border-radius:15px}
